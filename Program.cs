@@ -84,5 +84,107 @@ class Program
         Console.WriteLine("The total sum is " + sum);
         Console.WriteLine("The amount of sum numbers are: " + num.Count);
         */
+
+
+
+
+        /*-------------------------------------------------
+        --------------------ATM----------------------------
+        --------------------------------------------------*/
+
+        int bl = 1000000, wt, dp, db=0,ad, op = 0, py=0;
+
+        do
+        {
+            try
+            {
+                Console.WriteLine("--------------------------------------------------");
+                Console.WriteLine("---Welcome to the ATM, please choose an option.---");
+                Console.WriteLine("1) Check balance");
+                Console.WriteLine("2) Withdraw money");
+                Console.WriteLine("3) Deposit money");
+                Console.WriteLine("4) Advanced banking");
+                Console.WriteLine("5) Pay debt");
+                Console.WriteLine("6) Exit");
+                Console.WriteLine("--------------------------------------------------");
+                op = Convert.ToInt32(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        Console.WriteLine("Your balance is: " + bl);
+                        break;
+                    case 2:
+                        Console.WriteLine("How much would you like to withdraw?");
+                        wt = Convert.ToInt32(Console.ReadLine());
+                        if (wt > bl)
+                        {
+                            Console.WriteLine("Insufficient balance");
+                        }
+                        else
+                        {
+                            bl -= wt;
+                            Console.WriteLine("You have withdrawn: " + wt);
+                            Console.WriteLine("Your new balance is: " + bl);
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine("How much would you like to deposit?");
+                        dp = Convert.ToInt32(Console.ReadLine());
+                        bl += dp;
+                        Console.WriteLine("You have deposited: " + dp);
+                        Console.WriteLine("Your new balance is: " + bl);
+                        break;
+                    case 4:
+                        Console.WriteLine("How much would you like to reqeuest in advanced?");
+                        ad = Convert.ToInt32(Console.ReadLine());
+                        db += ad;
+                        bl += ad;
+                        Console.WriteLine("You have requested: " + ad);
+                        Console.WriteLine("Your new balance is: " + bl);
+                        Console.WriteLine("Your total debt is: " + db);
+                        break;
+                    case 5:
+                        if (db == 0)
+                        {
+                            Console.WriteLine("You don't have any debt");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Your total debt is: " + db);
+                            Console.WriteLine("How much would you like to pay?");  
+                            py = Convert.ToInt32(Console.ReadLine());
+                            if (py > bl)
+                            {
+                                Console.WriteLine("Insufficient balance");
+                            }
+                            else if (py > db)
+                            {
+                                Console.WriteLine("The amount exceeds your debt");
+                            }
+                            else
+                            {
+                                db -= py;
+                                bl -= py;
+                                Console.WriteLine("You have paid: " + py);
+                                Console.WriteLine("Your new balance is: " + bl);
+                                Console.WriteLine("Your remaining debt is: " + db);
+                            }
+                        }
+                        break;
+                    case 6:
+                        Console.WriteLine("Thank you for using our ATM, have a great day.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option");
+                        break;
+            }
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Invalid option");
+            }
+        }while (op != 6);
+
     }
 }
