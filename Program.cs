@@ -1,5 +1,82 @@
 ﻿using System;
 
+
+class BankAccount
+{
+    
+    private int balance;
+    private int debt;
+
+    
+    public BankAccount(int initialBalance, int initialDebt)
+    {
+        balance = initialBalance;
+        debt = initialDebt;
+    }
+
+   
+    public int GetBalance()
+    {
+        return balance;
+    }
+
+   
+    public int GetDebt()
+    {
+        return debt;
+    }
+
+
+    public void Deposit(int amount)
+    {
+        balance += amount;
+        Console.WriteLine($"You have deposited: {amount}");
+        Console.WriteLine($"Your new balance is: {balance}");
+    }
+
+ 
+    public void Withdraw(int amount)
+    {
+        if (amount > balance)
+        {
+            Console.WriteLine("Insufficient balance");
+        }
+        else
+        {
+            balance -= amount;
+            Console.WriteLine($"You have withdrawn: {amount}");
+            Console.WriteLine($"Your new balance is: {balance}");
+        }
+    }
+
+
+    public void RequestAdvance(int amount)
+    {
+        debt += amount;
+        balance += amount;
+        Console.WriteLine($"You have requested: {amount}");
+        Console.WriteLine($"Your total debt is: {debt}");
+    }
+
+    public void PayDebt(int amount)
+    {
+        if (amount > balance)
+        {
+            Console.WriteLine("Insufficient balance to pay debt.");
+        }
+        else if (amount > debt)
+        {
+            Console.WriteLine("The amount exceeds your total debt.");
+        }
+        else
+        {
+            debt -= amount;
+            balance -= amount;
+            Console.WriteLine($"You have paid: {amount}. Your remaining debt is: {debt}");
+            Console.WriteLine($"Your new balance is: {balance}");
+        }
+    }
+}
 class Program
 {
     static void Main(string[] args)
@@ -90,7 +167,7 @@ class Program
 
         /*-------------------------------------------------
         --------------------ATM----------------------------
-        --------------------------------------------------*/
+        --------------------------------------------------
 
         int bl = 1000000, wt, dp, db=0,ad, op = 0, py=0;
 
@@ -185,6 +262,78 @@ class Program
                 Console.WriteLine("Invalid option");
             }
         }while (op != 6);
+        */
 
+
+
+        /*------------------------------------------------
+        --------------------ATM with OOP------------------
+        -------------------------------------------------- */
+
+
+        BankAccount myAccount = new BankAccount(1000000, 0);
+
+        int op = 0;
+        do
+        {
+            try
+            {
+                Console.WriteLine("--------------------------------------------------");
+                Console.WriteLine("---Welcome to the ATM, please choose an option.---");
+                Console.WriteLine("1) Check balance");
+                Console.WriteLine("2) Withdraw money");
+                Console.WriteLine("3) Deposit money");
+                Console.WriteLine("4) Advanced banking");
+                Console.WriteLine("5) Pay debt");
+                Console.WriteLine("6) Exit");
+                Console.WriteLine("--------------------------------------------------");
+                op = Convert.ToInt32(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        Console.WriteLine("Your balance is: " + myAccount.GetBalance());
+                        Console.WriteLine("Your debt is: " + myAccount.GetDebt());
+                        break;
+                    case 2:
+                        Console.WriteLine("How much would you like to withdraw?");
+                        int wt = Convert.ToInt32(Console.ReadLine());
+                        myAccount.Withdraw(wt);
+                        break;
+                    case 3:
+                        Console.WriteLine("How much would you like to deposit?");
+                        int dp = Convert.ToInt32(Console.ReadLine());
+                        myAccount.Deposit(dp);
+                        break;
+                    case 4:
+                        Console.WriteLine("How much would you like to request in advanced?");
+                        int ad = Convert.ToInt32(Console.ReadLine());
+                        myAccount.RequestAdvance(ad);
+                        break;
+                    case 5:
+                        if (myAccount.GetDebt() == 0)
+                        {
+                            Console.WriteLine("You don't have any debt.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Your total debt is: " + myAccount.GetDebt());
+                            Console.WriteLine("How much would you like to pay?");
+                            int py = Convert.ToInt32(Console.ReadLine());
+                            myAccount.PayDebt(py);
+                        }
+                        break;
+                    case 6:
+                        Console.WriteLine("Thank you for using our ATM, have a great day.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option");
+                        break;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
+            }
+        } while (op != 6);
     }
 }
